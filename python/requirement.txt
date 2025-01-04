@@ -1,2 +1,6 @@
 fastapi
 torch
+numpy
+pandas
+flask_sqlalchemy
+psycopg2

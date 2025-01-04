@@ -13,14 +13,18 @@ db_config = {
     'user': 'postgres',
     'password': '1234',
     'host': 'localhost',
-    'port': '5432',  # Örneğin: 5432
+    'port': '5432',
     'database': 'warehouse'
 }
 
-# Sorguyu çalıştır ve sonuçları bir DataFrame'e al
 connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}"
-
-
+# CORS Policy for http://localhost:3000
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
 
 @app.route('/api/movies/random-movies', methods=['GET'])
 def fetch_random_movies():

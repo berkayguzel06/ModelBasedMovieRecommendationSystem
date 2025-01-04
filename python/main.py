@@ -1,16 +1,23 @@
 from http.client import HTTPException
 import torch
 from fastapi import FastAPI
-import predict as p
 import pandas as pd
 import models as m
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import MultiLabelBinarizer
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
-
+# CORS Policy for http://localhost:3000
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # İzin verilen origin (kaynak)
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],  # İzin verilen HTTP metodları
+    allow_headers=["Content-Type", "Authorization"],  # İzin verilen başlıklar
+)
 # Load the datasets
 movies_df = pd.read_csv("created_models/movie.csv")
 user_movies_df = pd.read_csv("created_models/user_movies.csv")
