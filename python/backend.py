@@ -21,11 +21,6 @@ db_config = {
 connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database']}"
 
 
-    
-@app.route('/api/user', methods=['GET'])
-def fetch_all_users():
-    users = User.query.all()
-    return jsonify([{'userId': user.user_id, 'name': user.name} for user in users])
 
 @app.route('/api/movies/random-movies', methods=['GET'])
 def fetch_random_movies():
@@ -83,25 +78,6 @@ def fetch_movie_by_id(movie_id):
     return jsonify(movie_dict)
 
 
-@app.route('/api/movies/title', methods=['GET'])
-def fetch_movie_by_title():
-    title = request.args.get('title')
-    movie = Movie.query.filter_by(title=title).first()
-    if not movie:
-        return jsonify({'error': 'Movie not found'}), 404
-    return jsonify({'movieId': movie.movie_id, 'title': movie.title, 'genre': movie.genre})
-
-@app.route('/api/movies/predict/collaborative', methods=['POST'])
-def predict_collaborative():
-    data = request.json
-
-    return jsonify({'message': 'Collaborative predictions fetched', 'data': data})
-
-@app.route('/api/movies/predict/content', methods=['POST'])
-def predict_content():
-    data = request.json
-
-    return jsonify({'message': 'Content-based predictions fetched', 'data': data})
 
 # Initialize the database
 with app.app_context():
